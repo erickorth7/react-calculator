@@ -1,8 +1,7 @@
 
 
 .calculator-frame {
-  /* width: 400px;
-  height:600px; */
+  width: 35%;
   border-radius: 2%;
   background-color: black;
 }
@@ -10,20 +9,6 @@
 .button-container {
   width: 100%;
   height:auto;
-}
-
-.button-row {
-  width: 100%;
-  height:auto;
-  background-color:red;
-}
-
-.button-group {
-  width: 30px;
-  height: 30px;
-  border-radius: 10%;
-  background-color: orange;
-  margin-right: 10px;
 }
 
 .calculator-input {
