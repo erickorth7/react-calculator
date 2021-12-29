@@ -1,16 +1,51 @@
-
-
-.calculator-frame {
-  width: 35%;
-  border-radius: 2%;
-  background-color: black;
+:root {
+  --primary: purple;
+  --secondary: gold;
+  --dark: #11000F;
+  --light: #fff;
 }
 
-.button-container {
+body {
+  background-color: var(--light);
+  font-family: sans-serif;
+}
+
+.calculatorFrame {
+  background-color: var(--dark);
+  width: 35%;
+  height:auto;
+  border-radius: 10px;
+  box-shadow: 10px 5px 5px var(--dark);
+}
+
+.display {
+  color: var(--light);
+  font-size: 24px;
   width: 100%;
   height:auto;
+  padding: 10px 0;
 }
 
-.calculator-input {
-  color: white;
+.operators {
+  font-size: 24px;
+  padding:0;
 }
+
+.digits {
+  font-size: 24px;
+  padding:0;
+}
+
+
+/* INDIVIDUAL BUTTON STYLES */
+.button {
+  outline: none;
+  border: 0;
+  padding: 10px;
+}
+
+.operator {
+  background-color: var(--primary);
+  color: var(--light);
+}
+/* END OF INDIVIDUAL BUTTON STYLES */
