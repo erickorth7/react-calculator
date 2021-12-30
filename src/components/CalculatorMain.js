@@ -16,26 +16,17 @@ export default class Calculator extends Component {
     
     render() {
 
-        const add = (a, b) => {
-            return a + b;
+        const updateCalc = (value) => {
+            let input = this.state.setCalc;
+            this.setState({
+                setCalc: input + value
+                });
         }
 
-        const subtract = (a, b) => {
-            return a - b;
-        }
-
-        const multiply = (a, b) => {
-            return a * b;
-        }
-
-        const divide = (a, b) => {
-            return a / b;
-        }
-
-        const updateCalc = value => {
-           this.setState({
-               setCalc: value
-            });
+        const resetCalc = () => {
+            this.setState({
+                setCalc: ''
+            })
         }
 
         return (
@@ -51,7 +42,7 @@ export default class Calculator extends Component {
                 <div className="row">
                     <div className="col operators">
                         {this.state.operators.map(a => <button className='button operator' value={a} onClick={() => updateCalc(a.toString())}>{a}</button>)}
-                        <button className='button operator' value='=' onClick={() => updateCalc('0')}>C</button>
+                        <button className='button operator' value='=' onClick={() => resetCalc()}>C</button>
                     </div>
                 </div>
                 <div className="row">
