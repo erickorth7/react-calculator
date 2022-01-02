@@ -9,7 +9,9 @@ export default class Calculator extends Component {
         this.state = {
             operators: OPERATORS,
             digits: DIGITS,
+            input: '',
             setCalc: '',
+            finalInput: '',
             result: ''
         }   
     }
@@ -17,15 +19,30 @@ export default class Calculator extends Component {
     render() {
 
         const updateCalc = (value) => {
-            let input = this.state.setCalc;
             this.setState({
-                setCalc: input + value
+                input: this.state.input + value,
+                setCalc: this.state.setCalc + value
                 });
         }
 
         const resetCalc = () => {
             this.setState({
-                setCalc: ''
+                input: '',
+                setCalc: '',
+                finalInput: ''
+            })
+        }
+
+        const add = () => {
+            this.setState({
+                setCalc: '',
+                finalInput: this.state.input
+            })
+        }
+
+        const solve = () => {
+            this.setState({
+                setCalc: parseInt(this.state.finalInput) + parseInt(this.state.setCalc)
             })
         }
 
@@ -42,6 +59,7 @@ export default class Calculator extends Component {
                 <div className="row">
                     <div className="col operators">
                         {this.state.operators.map(a => <button className='button operator' value={a} onClick={() => updateCalc(a.toString())}>{a}</button>)}
+                        <button className='button operator' value="+" onClick={() => add()}>+</button>
                         <button className='button operator' value='=' onClick={() => resetCalc()}>C</button>
                     </div>
                 </div>
@@ -49,7 +67,7 @@ export default class Calculator extends Component {
                     <div className="col digits">
                         {this.state.digits.map(a => <button className='button' key={a} value={a} onClick={() => updateCalc(a.toString())}>{a}</button>)}
                         <button className='button' value='.' onClick={() => updateCalc('.')}>.</button>
-                        <button className='button operator' value='=' onClick={() => updateCalc('')}>=</button>
+                        <button className='button operator' value='=' onClick={() => solve()}>=</button>
                     </div>
                 </div>
             </div>
