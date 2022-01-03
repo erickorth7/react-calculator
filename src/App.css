@@ -48,4 +48,9 @@ body {
   background-color: var(--primary);
   color: var(--light);
 }
+
+.operatorActive {
+  background-color: var(--light);
+  color: var(--primary);
+}
 /* END OF INDIVIDUAL BUTTON STYLES */
