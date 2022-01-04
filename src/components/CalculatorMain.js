@@ -134,12 +134,17 @@ export default class Calculator extends Component {
         }
 
         return (
-            <div className='container'>
+            <div className='container-fluid'>
                 <div className='row'>
-                    <div className='col-6 calculatorFrame'>
+                    <div className='col pt-5 pb-5 text-center'>
+                        <h1>React Calculator</h1>
+                    </div>
+                </div>
+                <div className='row'>
+                    <div className='col-9 col-md-6 calculatorFrame'>
                         <div className='container m-0 p-0'>
                             <div className='row'>
-                                <div className="col display">
+                                <div className="col display text-center">
                                     <span style={{fontSize: 40}}>
                                         {this.state.setCalc || this.state.input || '0'}
                                     </span>

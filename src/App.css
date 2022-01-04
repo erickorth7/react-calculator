@@ -6,10 +6,12 @@
 }
 
 body {
-  background-color: var(--light);
+  background-color: #EEEEEE;
 }
 
 .calculatorFrame {
+  float: none;
+  margin: 0 auto;
   background-color: var(--dark);
   border-radius: 10px;
   box-shadow: 10px 5px 5px #999595;
@@ -18,10 +20,6 @@ body {
 .display {
   color: var(--light);
   padding: 10px 0;
-}
-
-.display span {
-  /* padding-left: 300px; */
 }
 
 .operators {
