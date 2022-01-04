@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button } from 'reactstrap';
 import { DIGITS } from '../shared/digits';
 
 export default class Calculator extends Component {
@@ -24,6 +25,12 @@ export default class Calculator extends Component {
             this.setState({
                 setCalc: this.state.setCalc + value
             });
+
+            if(this.state.setCalc.length === 9) {
+                this.setState({
+                    setCalc: this.state.setCalc
+                });
+            }
         }
 
         const resetCalc = () => {
@@ -76,10 +83,17 @@ export default class Calculator extends Component {
 
             switch(operator) {
                 case '+':
-                    this.setState({
-                        setCalc: parseFloat(this.state.input) + parseFloat(this.state.setCalc),
-                        addStylesActive: false
-                    })
+                    if(parseFloat(this.state.input) + parseFloat(this.state.setCalc) > 999999999) {
+                        this.setState({
+                            setCalc: 'E',
+                            addStylesActive: false
+                        })
+                    } else {
+                        this.setState({
+                            setCalc: parseFloat(this.state.input) + parseFloat(this.state.setCalc),
+                            addStylesActive: false
+                        })
+                    }
                     break;
 
                 case '-':
@@ -90,72 +104,93 @@ export default class Calculator extends Component {
                     break;
 
                 case '*':
-                    this.setState({
-                        setCalc: parseFloat(this.state.input) * parseFloat(this.state.setCalc),
-                        multiplyStylesActive: false
-                    })
+                    if(parseFloat(this.state.input) * parseFloat(this.state.setCalc) > 999999999) {
+                        this.setState({
+                            setCalc: 'E',
+                            multiplyStylesActive: false
+                        })
+                    } else {
+                        this.setState({
+                            setCalc: parseFloat(this.state.input) * parseFloat(this.state.setCalc),
+                            multiplyStylesActive: false
+                        })
+                    }
                     break;
 
                 case '/':
-                    this.setState({
-                        setCalc: parseFloat(this.state.input) / parseFloat(this.state.setCalc),
-                        divideStylesActive: false
-                    })
+                    if(parseFloat(this.state.input) / parseFloat(this.state.setCalc) > 999999999) {
+                        this.setState({
+                            setCalc: 'E',
+                            divideStylesActive: false
+                        })
+                    } else {
+                        this.setState({
+                            setCalc: parseFloat(this.state.input) / parseFloat(this.state.setCalc),
+                            divideStylesActive: false
+                        })
+                    }
                     break;
             }
         }
 
         return (
-            <div className='container calculatorFrame'>
-                <div className="row">
-                    <div className="col display">
-                        <span style={{fontSize: 40}}>
-                            {this.state.setCalc || this.state.input || '0'}
-                        </span>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col operators">
-                        <button
-                            className={`button operator${this.state.addStylesActive ? 'Active' : ''}`}
-                            value="+" 
-                            onClick={() => handleOperator("+")}>
-                            +
-                        </button>
-                        <button
-                            className={`button operator${this.state.subtractStylesActive ? 'Active' : ''}`}
-                            value="-"
-                            onClick={() => handleOperator("-")}>
-                            -
-                        </button>
-                        <button
-                            className={`button operator${this.state.multiplyStylesActive ? 'Active' : ''}`}
-                            value="*"
-                            onClick={() => handleOperator("*")}>
-                            *
-                        </button>
-                        <button
-                            className={`button operator${this.state.divideStylesActive ? 'Active' : ''}`}
-                            value="/"
-                            onClick={() => handleOperator("/")}>
-                            /
-                        </button>
-                        <button
-                            className='button operator'
-                            value='='
-                            onClick={() => resetCalc()}>
-                            C
-                        </button>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col digits">
-                        {this.state.digits.map(a => <button className='button' key={a} value={a} onClick={() => updateCalc(a.toString())}>{a}</button>)}
-                        <button className='button' value='.' onClick={() => updateCalc('.')}>.</button>
-                        <button className='button operator' value='=' onClick={() => solve(this.state.operator)}>=</button>
-                    </div>
+            <div className='container'>
+                <div className='row'>
+                    <div className='col-6 calculatorFrame'>
+                        <div className='container m-0 p-0'>
+                            <div className='row'>
+                                <div className="col display">
+                                    <span style={{fontSize: 40}}>
+                                        {this.state.setCalc || this.state.input || '0'}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className='row'>
+                                <div className='operators'>
+                                    <Button
+                                        className={`col-2 button operator${this.state.addStylesActive ? 'Active' : ''}`}
+                                        value="+" 
+                                        onClick={() => handleOperator("+")}>
+                                        +
+                                    </Button>
+                                    <Button
+                                        className={`col-2 button operator${this.state.subtractStylesActive ? 'Active' : ''}`}
+                                        value="-"
+                                        onClick={() => handleOperator("-")}>
+                                        -
+                                    </Button>
+                                    <Button
+                                        className={`col-2 button operator${this.state.multiplyStylesActive ? 'Active' : ''}`}
+                                        value="*"
+                                        onClick={() => handleOperator("*")}>
+                                        *
+                                    </Button>
+                                    <Button
+                                        className={`col-2 button operator${this.state.divideStylesActive ? 'Active' : ''}`}
+                                        value="/"
+                                        onClick={() => handleOperator("/")}>
+                                        /
+                                    </Button>
+                                    <Button
+                                        className='col-4 button operator'
+                                        value='='
+                                        onClick={() => resetCalc()}>
+                                        C
+                                    </Button>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="digits">
+                                    {this.state.digits.map(a => <Button className='col-4 button' key={a} value={a} onClick={() => updateCalc(a.toString())}>{a}</Button>)}
+                                    <Button className='col-4 button' style={{borderBottomLeftRadius: '10px'}} value='0' onClick={() => updateCalc('0')}>0</Button>
+                                    <Button className='col-4 button' value='.' onClick={() => updateCalc('.')}>.</Button>
+                                    <Button className='col-4 button operator' style={{borderBottomRightRadius: '10px'}} value='=' onClick={() => solve(this.state.operator)}>=</Button>
+                                </div>
+                            </div>
+                        </div>
                 </div>
             </div>
+        </div>
         );
     }
 }

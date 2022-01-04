@@ -7,32 +7,28 @@
 
 body {
   background-color: var(--light);
-  font-family: sans-serif;
 }
 
 .calculatorFrame {
   background-color: var(--dark);
-  width: 35%;
-  height:auto;
   border-radius: 10px;
-  box-shadow: 10px 5px 5px var(--dark);
+  box-shadow: 10px 5px 5px #999595;
 }
 
 .display {
   color: var(--light);
-  font-size: 24px;
-  width: 100%;
-  height:auto;
   padding: 10px 0;
 }
 
+.display span {
+  /* padding-left: 300px; */
+}
+
 .operators {
-  font-size: 24px;
   padding:0;
 }
 
 .digits {
-  font-size: 24px;
   padding:0;
 }
 
@@ -41,7 +37,14 @@ body {
 .button {
   outline: none;
   border: 0;
-  padding: 10px;
+  border-radius:0;
+  height: 75px;
+  font-size: 20px;
+}
+
+.button:hover {
+  background-color: var(--light);
+  color: var(--primary);
 }
 
 .operator {
