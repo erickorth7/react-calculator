@@ -14,7 +14,8 @@ export default class Calculator extends Component {
             subtractStylesActive: false,
             multiplyStylesActive: false,
             divideStylesActive: false,
-            setCalc: ''
+            setCalc: '',
+            result: ''
         }   
     }
     
@@ -22,9 +23,12 @@ export default class Calculator extends Component {
 
 
         const updateCalc = (value) => {
-            this.setState({
-                setCalc: this.state.setCalc + value
-            });
+
+            if(this.state.result === '') {
+                this.setState({
+                    setCalc: this.state.setCalc + value
+                });
+            }
 
             if(this.state.setCalc.length === 9) {
                 this.setState({
@@ -41,8 +45,27 @@ export default class Calculator extends Component {
                 subtractStylesActive: false,
                 multiplyStylesActive: false,
                 divideStylesActive: false,
-                setCalc: ''
+                setCalc: '',
+                result: ''
             });
+        }
+
+        const handleDecimal = (value) => {
+            if(this.state.setCalc.includes('.') && value === '.') {
+                return;
+            } else {
+                updateCalc(value);
+            }
+        }
+
+        const handleNegative = (value) => {
+            if(this.state.setCalc.includes('-') && value === '-') {
+                return;
+            } else if(this.state.setCalc && value === '-') {
+                return;
+            } else {
+                updateCalc(value);
+            }
         }
 
         const handleOperator = (value) => {
@@ -52,28 +75,50 @@ export default class Calculator extends Component {
                 setCalc: ''
             });
 
+            if(this.state.setCalc === '') {
+                this.setState({
+                    input: '0'
+                })
+            }
+
             switch(value) {
                 case '+':
                     this.setState({
-                        addStylesActive: true
+                        addStylesActive: true,
+                        subtractStylesActive: false,
+                        multiplyStylesActive: false,
+                        divideStylesActive: false,
+                        result: ''
                     })
                     break;
 
                 case '-':
                     this.setState({
-                        subtractStylesActive: true
+                        addStylesActive: false,
+                        subtractStylesActive: true,
+                        multiplyStylesActive: false,
+                        divideStylesActive: false,
+                        result: ''
                     })
                     break;
 
                 case '*':
                     this.setState({
-                        multiplyStylesActive: true
+                        addStylesActive: false,
+                        subtractStylesActive: false,
+                        multiplyStylesActive: true,
+                        divideStylesActive: false,
+                        result: ''
                     })
                     break;
                 
                 case '/':
                     this.setState({
-                        divideStylesActive: true
+                        addStylesActive: false,
+                        subtractStylesActive: false,
+                        multiplyStylesActive: false,
+                        divideStylesActive: true,
+                        result: ''
                     })
                     break;
             }
@@ -81,57 +126,44 @@ export default class Calculator extends Component {
 
         const solve = (operator) => {
 
+            let calculation;
+            let solution;
+
             switch(operator) {
                 case '+':
-                    if(parseFloat(this.state.input) + parseFloat(this.state.setCalc) > 999999999) {
-                        this.setState({
-                            setCalc: 'E',
-                            addStylesActive: false
-                        })
-                    } else {
-                        this.setState({
-                            setCalc: parseFloat(this.state.input) + parseFloat(this.state.setCalc),
-                            addStylesActive: false
-                        })
-                    }
+                    calculation = parseFloat(this.state.input) + parseFloat(this.state.setCalc);
                     break;
 
                 case '-':
-                    this.setState({
-                        setCalc: parseFloat(this.state.input) - parseFloat(this.state.setCalc),
-                        subtractStylesActive: false
-                    })
+                    calculation = parseFloat(this.state.input) - parseFloat(this.state.setCalc);
                     break;
 
                 case '*':
-                    if(parseFloat(this.state.input) * parseFloat(this.state.setCalc) > 999999999) {
-                        this.setState({
-                            setCalc: 'E',
-                            multiplyStylesActive: false
-                        })
-                    } else {
-                        this.setState({
-                            setCalc: parseFloat(this.state.input) * parseFloat(this.state.setCalc),
-                            multiplyStylesActive: false
-                        })
-                    }
+                    calculation = parseFloat(this.state.input) * parseFloat(this.state.setCalc);
                     break;
 
                 case '/':
-                    if(parseFloat(this.state.input) / parseFloat(this.state.setCalc) > 999999999) {
-                        this.setState({
-                            setCalc: 'E',
-                            divideStylesActive: false
-                        })
-                    } else {
-                        this.setState({
-                            setCalc: parseFloat(this.state.input) / parseFloat(this.state.setCalc),
-                            divideStylesActive: false
-                        })
-                    }
+                    calculation = parseFloat(this.state.input) / parseFloat(this.state.setCalc);
                     break;
             }
+
+            solution = calculation.toString().slice(0,9);
+
+            if(calculation > 999999999) {
+                this.setState({
+                    setCalc: 'E',
+                    addStylesActive: false,
+                    result: 'E'
+                });
+            } else {
+                this.setState({
+                    setCalc: solution,
+                    addStylesActive: false,
+                    result: solution
+                });
+            }
         }
+
 
         return (
             <div className='container-fluid'>
@@ -141,12 +173,12 @@ export default class Calculator extends Component {
                     </div>
                 </div>
                 <div className='row'>
-                    <div className='col-9 col-md-6 calculatorFrame'>
+                    <div className='col-9 col-sm-6 col-lg-4 calculatorFrame'>
                         <div className='container m-0 p-0'>
                             <div className='row'>
                                 <div className="col display text-center">
                                     <span style={{fontSize: 40}}>
-                                        {this.state.setCalc || this.state.input || '0'}
+                                        {this.state.result || this.state.setCalc || this.state.input || '0'}
                                     </span>
                                 </div>
                             </div>
@@ -188,7 +220,8 @@ export default class Calculator extends Component {
                                 <div className="digits">
                                     {this.state.digits.map(a => <Button className='col-4 button' key={a} value={a} onClick={() => updateCalc(a.toString())}>{a}</Button>)}
                                     <Button className='col-4 button' style={{borderBottomLeftRadius: '10px'}} value='0' onClick={() => updateCalc('0')}>0</Button>
-                                    <Button className='col-4 button' value='.' onClick={() => updateCalc('.')}>.</Button>
+                                    <Button className='col-2 button' value='-' onClick={() => handleNegative('-')}>-</Button>
+                                    <Button className='col-2 button' value='.' onClick={() => handleDecimal('.')}>.</Button>
                                     <Button className='col-4 button operator' style={{borderBottomRightRadius: '10px'}} value='=' onClick={() => solve(this.state.operator)}>=</Button>
                                 </div>
                             </div>
