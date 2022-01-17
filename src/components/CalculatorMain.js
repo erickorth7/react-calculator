@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 import { DIGITS } from '../shared/digits';
+import Display from './Display';
 
 export default class Calculator extends Component {
 
@@ -130,7 +131,7 @@ export default class Calculator extends Component {
 
             let calculation;
             let solution;
-            
+
             switch(operator) {
                 case '+':
                     calculation = parseFloat(this.state.input) + parseFloat(this.state.setCalc);
@@ -191,11 +192,7 @@ export default class Calculator extends Component {
                     <div className='col-9 col-sm-6 col-lg-4 calculatorFrame'>
                         <div className='container m-0 p-0'>
                             <div className='row'>
-                                <div className="col display text-center">
-                                    <span style={{fontSize: 40}}>
-                                        {this.state.setCalc || this.state.result || this.state.input || '0'}
-                                    </span>
-                                </div>
+                                <Display setCalc={this.state.setCalc} result={this.state.result} input={this.state.input} />
                             </div>
                             <div className='row'>
                                 <div className='operators'>
